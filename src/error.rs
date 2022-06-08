@@ -81,6 +81,8 @@ pub enum TtfbError {
     CantConnectHttp(io::Error),
     #[display(fmt = "There was a problem with the stream: {}", _0)]
     OtherStreamError(io::Error),
+    #[display(fmt = "The response was invalid")]
+    InvalidHttpResponse,
 }
 
 impl Error for TtfbError {
@@ -93,6 +95,7 @@ impl Error for TtfbError {
             TtfbError::OtherStreamError(err) => Some(err),
             TtfbError::CantVerifyTls(err) => Some(err),
             TtfbError::CantConnectHttp(err) => Some(err),
+            TtfbError::InvalidHttpResponse => Some(self),
         }
     }
 }

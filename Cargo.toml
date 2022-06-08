@@ -29,6 +29,7 @@ derive_more = { version = "0.99", default-features = false, features = ["display
 # nice abstraction of URL
 url = "2.2"
 regex = "1.5"
+tokio = { version = "1.17.0", features = ["macros", "rt-multi-thread", "process", "time"] }
 
 
 # +++ BINARY +++

@@ -46,7 +46,8 @@ pub struct TtfbOutcome {
     /// The relative duration until the first byte from the HTTP response (the header) was
     /// received.
     http_ttfb_duration_rel: Duration,
-    // http_content_download_duration: Duration,
+    http_content_download_duration: Duration,
+    http_status_code: String,
 }
 
 impl TtfbOutcome {
@@ -60,7 +61,8 @@ impl TtfbOutcome {
         tls_handshake_duration_rel: Option<Duration>,
         http_get_send_duration_rel: Duration,
         http_ttfb_duration_rel: Duration,
-        // http_content_download_duration: Duration,
+        http_status_code: String,
+        http_content_download_duration: Duration,
     ) -> Self {
         Self {
             user_input,
@@ -71,7 +73,8 @@ impl TtfbOutcome {
             tls_handshake_duration_rel,
             http_get_send_duration_rel,
             http_ttfb_duration_rel,
-            // http_content_download_duration,
+            http_status_code,
+            http_content_download_duration,
         }
     }
 
@@ -143,9 +146,13 @@ impl TtfbOutcome {
         self.http_ttfb_duration_rel + self.http_get_send_duration_abs()
     }
 
-    /*pub fn http_content_download_duration(&self) -> Duration {
+    pub fn http_status_code(&self) -> &str {
+        &self.http_status_code
+    }
+
+    pub fn http_content_download_duration(&self) -> Duration {
         self.http_content_download_duration
-    }*/
+    }
 }
 
 #[cfg(test)]
@@ -164,6 +171,8 @@ mod tests {
             Duration::from_millis(2),
             Some(Duration::from_millis(3)),
             Duration::from_millis(4),
+            Duration::from_millis(5),
+            "200".to_string(),
             Duration::from_millis(5),
         );
         assert_eq!(

@@ -78,10 +78,11 @@ impl From<ArgMatches> for TtfbArgs {
 /// Small CLI binary wrapper around the [`ttfb`] lib.
 /// Handles argument parsing via [`clap`] crate.
 /// Similar to curl, it takes a `-k/--insecure` option.
-fn main() {
+#[tokio::main]
+async fn main() {
     let input = get_url_from_user();
     let input = TtfbArgs::from(input);
-    let res = ttfb::ttfb(input.host, input.allow_insecure_certificates);
+    let res = ttfb::ttfb(input.host, input.allow_insecure_certificates).await;
     let ttfb = unwrap_or_exit!(res);
     print_outcome(&ttfb).unwrap();
 }
